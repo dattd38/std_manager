@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:std_manager/model/class.dart';
 
+import '../controller/student-controller.dart';
 import '../model/student.dart';
 
 class AddStudent extends StatefulWidget {
@@ -15,6 +17,11 @@ class _AddStudentState extends State<AddStudent> {
   final nameController = TextEditingController();
   final yearOfBirthController = TextEditingController();
   final genderController = TextEditingController();
+  final StudentManagementController _controller = StudentManagementController();
+  String dropDownBlock = '10';
+  String dropDownClassName = 'A';
+  var block = ['10', '11', '12'];
+  var className = ['A', 'B', 'C'];
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +79,55 @@ class _AddStudentState extends State<AddStudent> {
                   return null;
                 },
               ),
+              Row(
+                children: [
+                  const Text(
+                    'Block',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const Spacer(),
+                  DropdownButton(
+                    value: dropDownBlock,
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    items: block.map((String item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(item),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropDownBlock = newValue!;
+                      });
+                    },
+                  ),
+                ],
+              ),
+
+              Row(
+                children: [
+                  const Text(
+                    'ClassName',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const Spacer(),
+                  DropdownButton(
+                    value: dropDownClassName,
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    items: className.map((String item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(item),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropDownClassName = newValue!;
+                      });
+                    },
+                  )
+                ],
+              ),
             ],
           ),
         ),
@@ -86,7 +142,12 @@ class _AddStudentState extends State<AddStudent> {
                 yearOfBirth: int.parse(yearOfBirthController.text),
                 gender: genderController.text,
               );
-              Navigator.pop(context, newStudent);
+              var newClass = Class(
+                  block: dropDownBlock,
+                  className: dropDownClassName,
+                  students: [newStudent]);
+
+              Navigator.pop(context, newClass);
             }
           }),
     );

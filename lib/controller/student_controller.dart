@@ -78,8 +78,14 @@ class StudentManagementController {
   List<Student> get students => _students;
   List<Class> get classes => _classes;
 
-  void addStudent(Student student) {
-    _students.add(student);
+  void addStudentToClass(Class classes) {
+    print(classes.block);
+    for (Class c in _classes) {
+      if (c.block == classes.block && c.className == classes.className) {
+        c.students.add(classes.students.first);
+      }
+    }
+    // _students.add(student);
   }
 
   void deleteStudentFromToClass(Student student) {
@@ -102,16 +108,29 @@ class StudentManagementController {
     }
   }
 
-  List<Student> searchStudent(String name) {
-    return _students
-        .where((student) =>
-            student.fullName().toLowerCase().contains(name.toLowerCase()))
-        .toList();
+  List<Class> searchStudent(String name) {
+    List<Class> classesWithStudent = [];
+
+    for (Class c in _classes) {
+      List<Student> studentsWithName = c.students
+          .where((student) =>
+              student.fullName().toLowerCase().contains(name.toLowerCase()))
+          .toList();
+
+      if (studentsWithName.isNotEmpty) {
+        //c.students = studentsWithName;
+        classesWithStudent.add(c);
+      }
+    }
+
+    return classesWithStudent;
   }
 
   // Sort students by name
   void sortStudentsByName() {
-    _students.sort((a, b) => a.name.compareTo(b.name));
+    for (Class c in _classes) {
+      c.students.sort((a, b) => a.name.compareTo(b.name));
+    }
   }
 
   // Sort classes by block and class name
