@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../model/student.dart';
+import '../model/student_model.dart';
 
-class EditStudent extends StatefulWidget {
+class EditStudentView extends StatefulWidget {
   final Student student;
 
-  const EditStudent({super.key, required this.student});
+  const EditStudentView({super.key, required this.student});
 
   @override
-  _EditStudentState createState() => _EditStudentState();
+  _EditStudentViewState createState() => _EditStudentViewState();
 }
 
-class _EditStudentState extends State<EditStudent> {
-  final formKey = GlobalKey<FormState>();
-  // final String fullNameController;
-  // final int yearOfBirthController;
-  // final String genderController;
+class _EditStudentViewState extends State<EditStudentView> {
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController _surNameController;
   late TextEditingController _nameController;
   late TextEditingController _yearOfBirthController;
@@ -41,7 +38,7 @@ class _EditStudentState extends State<EditStudent> {
         title: const Text("Edit Student"),
       ),
       body: Form(
-        key: formKey,
+        key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -98,7 +95,7 @@ class _EditStudentState extends State<EditStudent> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.save),
         onPressed: () {
-          if (formKey.currentState!.validate()) {
+          if (_formKey.currentState!.validate()) {
             var newStudent = Student(
               surName: _surNameController.text,
               name: _nameController.text,

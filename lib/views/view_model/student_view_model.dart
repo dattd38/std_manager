@@ -1,32 +1,7 @@
-import '../model/class.dart';
-import '../model/student.dart';
+import '../model/class_model.dart';
+import '../model/student_model.dart';
 
-class StudentManagementController {
-  final List<Student> _students = [
-    Student(
-      surName: 'New',
-      name: "John Doe",
-      yearOfBirth: 2003,
-      gender: "Male",
-    ),
-    Student(
-        surName: 'New',
-        name: "Jane Smith",
-        yearOfBirth: 2002,
-        gender: "Female"),
-    Student(
-      surName: 'New',
-      name: "Bob Johnson",
-      yearOfBirth: 2004,
-      gender: "Male",
-    ),
-    Student(
-        surName: 'New',
-        name: "Mary Jones",
-        yearOfBirth: 2003,
-        gender: "Female"),
-  ];
-
+class StudentViewModel {
   final List<Class> _classes = [
     Class(block: "10", className: "A", students: [
       Student(
@@ -74,32 +49,44 @@ class StudentManagementController {
     Class(block: "12", className: "B", students: []),
     Class(block: "12", className: "C", students: []),
   ];
-
-  List<Student> get students => _students;
+  //get list class
   List<Class> get classes => _classes;
+  // get block class
+  List<String> getBlock() {
+    List<String>? block = [];
+    for (Class c in _classes) {
+      block.add(c.block);
+    }
+    return block;
+  }
 
+  //get className
+  List<String> getClassName() {
+    List<String>? className = [];
+    for (Class c in _classes) {
+      className.add(c.className);
+    }
+    return className;
+  }
+
+  // add student to class
   void addStudentToClass(Class classes) {
-    print(classes.block);
     for (Class c in _classes) {
       if (c.block == classes.block && c.className == classes.className) {
         c.students.add(classes.students.first);
       }
     }
-    // _students.add(student);
   }
 
-  void deleteStudentFromToClass(Student student) {
-    // _students.remove(student);
-
+  //remove student from Class
+  void removeStudentFromClass(Student student) {
     for (Class c in _classes) {
       c.students.remove(student);
     }
   }
 
+  //edit information student
   void editStudent(Student oldStudent, Student newStudent) {
-    // int index = _students.indexOf(oldStudent);
-    // _students[index] = newStudent;
-
     for (Class c in _classes) {
       int studentIndex = c.students.indexOf(oldStudent);
       if (studentIndex != -1) {
@@ -108,7 +95,8 @@ class StudentManagementController {
     }
   }
 
-  List<Class> searchStudent(String name) {
+  //search student by fullName
+  List<Class> searchStudentsByFullName(String name) {
     List<Class> classesWithStudent = [];
 
     for (Class c in _classes) {
@@ -118,7 +106,6 @@ class StudentManagementController {
           .toList();
 
       if (studentsWithName.isNotEmpty) {
-        //c.students = studentsWithName;
         classesWithStudent.add(c);
       }
     }

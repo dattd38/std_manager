@@ -1,4 +1,4 @@
-import 'student.dart';
+import 'student_model.dart';
 
 class Class {
   String block;
